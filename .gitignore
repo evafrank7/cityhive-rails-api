@@ -1,0 +1,37 @@
+# macOS
+.DS_Store
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+/config/master.key
+/config/credentials/*.key
+
+# Ruby / Bundler
+/.bundle/
+/vendor/bundle/
+
+# Rails runtime files
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+!/tmp/pids/
+!/tmp/pids/.keep
+/storage/*
+!/storage/.keep
+/coverage/
+
+# Node.js / TypeScript
+/node_modules/
+/verification/node_modules/
+/verification/dist/
+
+# Editor settings
+.vscode/
+.idea/
+
+# Local database and Docker data
+/data/
+/mongo_data/

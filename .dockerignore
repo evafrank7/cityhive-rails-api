@@ -1,0 +1,9 @@
+.git
+.bundle
+log/*
+tmp/*
+coverage
+node_modules
+.env
+config/master.key
+original_files
