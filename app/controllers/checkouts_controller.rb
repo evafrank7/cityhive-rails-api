@@ -41,15 +41,32 @@ class CheckoutsController < ApplicationController
       :id.in => items.map { |item| item[:product_id] }
     ).index_by { |product| product.id.to_s }
 
+    # Combine quantities for repeated products before checking inventory.
+    # Fixed Bug: If a product is listed multipe times in the cart, we need
+    # to sum the quantities before checking inventory. Otherwise, we may allow
+    # a purchase that exceeds the available inventory. 
+    requested_quantities = Hash.new(0)
+
+    items.each do |item|
+      quantity = item[:quantity]
+    
+      # Fixed Bug: Ensures that quantity is a positive integer.
+      # If not, raises an error.
+      unless quantity.is_a?(Integer) && quantity.positive?
+        raise ActionController::BadRequest, "Invalid quantity"
+      end
+    
+      requested_quantities[item[:product_id]] += quantity
+    end
+    
     line_items = items.map do |item|    
       product = products[item[:product_id]]
 
       raise ActionController::BadRequest, "Product not found" unless product
 
-      quantity = item[:quantity].to_i
+      quantity = item[:quantity]
 
-      raise ActionController::BadRequest, "Invalid quantity" if quantity <= 0
-      raise ActionController::BadRequest, "Insufficient inventory" if product.inventory_count < quantity
+      raise ActionController::BadRequest, "Insufficient inventory" if product.inventory_count < requested_quantities[item[:product_id]]
 
       {
         product_id: product.id.to_s,
