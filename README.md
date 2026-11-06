@@ -140,6 +140,7 @@ npm run typecheck
 The verification script exercises the running API, checks response status codes and selected response fields, and returns a nonzero exit status if verification fails.
 
 ---
+ChatGPT/Codex was used in terms of help with setting up Docker, MongoDB, and creating tests.
 
 # Original Exercise Instructions
 -------------------------------------------------
