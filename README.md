@@ -139,28 +139,6 @@ npm run typecheck
 
 The verification script exercises the running API, checks response status codes and selected response fields, and returns a nonzero exit status if verification fails.
 
-## Assumptions and Design Decisions
-
-- Only active products are returned by the product endpoints.
-- Monetary values are stored as integer cents to avoid floating-point currency issues.
-- Checkout tax is calculated at a fixed rate of 8%.
-- Cart quantities must be positive JSON integers.
-- Checkout rejects missing products and requests exceeding available inventory.
-- Repeated product IDs in a cart are validated against their combined requested quantity.
-- Orders are stored in MongoDB using Mongoid.
-- API errors are returned as JSON with appropriate HTTP status codes.
-
-## Known Limitations and Future Improvements
-
-The implementation prioritizes the requirements of the exercise over production-level complexity.
-
-- Inventory updates are not currently protected against concurrent checkout requests.
-- Order creation and inventory updates are not wrapped in a MongoDB transaction, so partial failures could leave inconsistent data.
-- Additional validation, logging, monitoring, and more comprehensive automated testing would be appropriate for production use.
-- The checkout flow does not integrate with a payment processor.
-
-These are areas for future improvement rather than claims of production readiness.
-
 ---
 
 # Original Exercise Instructions
