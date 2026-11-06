@@ -11,7 +11,7 @@ class Order
 
   validates :email, presence: true
   validates :items, presence: true
-  validates :status, inclusion: { in: ["completed"] }
+  validates :status, inclusion: { in: [ "completed" ] }
 
   validates :tax_cents, numericality: { greater_than_or_equal_to: 0 }
   validates :total_cents, numericality: { greater_than_or_equal_to: 0 }

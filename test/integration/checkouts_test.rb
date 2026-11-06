@@ -49,20 +49,20 @@ class CheckoutsTest < ActionDispatch::IntegrationTest
         { product_id: @product.id.to_s, quantity: 2 }
       ]
     }, as: :json
-  
+
     assert_response :created
-  
+
     body = JSON.parse(response.body)
-  
+
     assert_equal 5400, body["total_cents"]
     assert body["order_id"].present?
-  
+
     order = Order.find(body["order_id"])
-  
+
     assert_equal "test@example.com", order.email
     assert_equal "completed", order.status
     assert_equal 5400, order.total_cents
-  
+
     # Reload the product to read its updated inventory from MongoDB.
     assert_equal 8, @product.reload.inventory_count
   end
