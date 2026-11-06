@@ -44,22 +44,22 @@ class CheckoutsController < ApplicationController
     # Combine quantities for repeated products before checking inventory.
     # Fixed Bug: If a product is listed multipe times in the cart, we need
     # to sum the quantities before checking inventory. Otherwise, we may allow
-    # a purchase that exceeds the available inventory. 
+    # a purchase that exceeds the available inventory.
     requested_quantities = Hash.new(0)
 
     items.each do |item|
       quantity = item[:quantity]
-    
+
       # Fixed Bug: Ensures that quantity is a positive integer.
       # If not, raises an error.
       unless quantity.is_a?(Integer) && quantity.positive?
         raise ActionController::BadRequest, "Invalid quantity"
       end
-    
+
       requested_quantities[item[:product_id]] += quantity
     end
-    
-    line_items = items.map do |item|    
+
+    line_items = items.map do |item|
       product = products[item[:product_id]]
 
       raise ActionController::BadRequest, "Product not found" unless product
@@ -77,7 +77,7 @@ class CheckoutsController < ApplicationController
       }
     end
 
-    # Calculate subtotal, tax, and total for the cart 
+    # Calculate subtotal, tax, and total for the cart
     subtotal_cents = line_items.sum { |item| item[:total_cents] }
     tax_cents = (subtotal_cents * 0.08).round
 
@@ -89,7 +89,7 @@ class CheckoutsController < ApplicationController
     }
   end
 
-  def checkout_params 
+  def checkout_params
     params.permit(
       :email,
       items: [
