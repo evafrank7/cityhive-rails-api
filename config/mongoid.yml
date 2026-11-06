@@ -6,7 +6,7 @@ development:
 test:
   clients:
     default:
-      uri: <%= ENV.fetch("MONGODB_URI", "mongodb://localhost:27017/cityhive_test") %>
+      uri: <%= ENV.fetch("MONGODB_TEST_URI", "mongodb://mongo:27017/cityhive_test") %>
 
 production:
   clients:

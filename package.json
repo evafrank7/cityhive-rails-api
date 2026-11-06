@@ -1,0 +1,30 @@
+{
+  "name": "cityhive-rails-api",
+  "version": "1.0.0",
+  "description": "You are provided with two Rails controllers that implement a simple E-commerce API.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "verify": "node --experimental-strip-types scripts/verify-api.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evafrank7/cityhive-rails-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/evafrank7/cityhive-rails-api/issues"
+  },
+  "homepage": "https://github.com/evafrank7/cityhive-rails-api#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
+}
