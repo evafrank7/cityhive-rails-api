@@ -1,3 +1,170 @@
+# CityHive Rails E-Commerce API
+
+A REST API built with Ruby on Rails and MongoDB for browsing products, generating checkout quotes, and completing orders.
+
+This project implements the provided CityHive controllers and adds the supporting application configuration, models, routes, error handling, seed data, integration tests, and TypeScript API verification.
+
+## Tech Stack
+
+- Ruby 3.4.x
+- Rails 8.1.x (API-only)
+- MongoDB 8.x
+- Mongoid 9.1.x
+- Docker and Docker Compose
+- TypeScript and Node.js
+
+## Getting Started
+
+### Prerequisites
+
+- Docker Desktop with Docker Compose
+- Node.js and npm (for the TypeScript verification script)
+
+### Start the Application
+
+Clone the repository and navigate into the project directory.
+
+```bash
+docker compose up --build -d
+```
+
+The Rails API will be available at:
+
+`http://localhost:3000`
+
+### Seed the Database
+
+Populate MongoDB with sample products:
+
+```bash
+docker compose exec web bin/rails runner db/seeds.rb
+```
+
+The seed data includes products across multiple categories, with both active and inactive products.
+
+### Stop the Application
+
+```bash
+docker compose down
+```
+
+## API Endpoints
+
+| Method | Endpoint             | Description                              |
+|--------|----------------------|------------------------------------------|
+| GET    | `/products`          | List active products                     |
+| GET    | `/products/:id`      | Retrieve an active product               |
+| POST   | `/checkout/quote`    | Calculate cart subtotal, tax, and total  |
+| POST   | `/checkout/complete` | Create an order and update inventory     |
+
+### Product Filtering
+
+The products endpoint supports optional query parameters:
+
+- `category`: Filter by product category.
+- `query`: Case-insensitive search by product name.
+- `page`: Page number (default: 1).
+- `limit`: Products per page (default: 25, maximum: 100).
+
+Example:
+
+```bash
+curl "http://localhost:3000/products?category=Clothing&page=1&limit=10"
+```
+
+### Checkout Quote
+
+```bash
+curl -X POST http://localhost:3000/checkout/quote \
+  -H "Content-Type: application/json" \
+  -d '{
+    "items": [
+      {
+        "product_id": "REPLACE_WITH_PRODUCT_ID",
+        "quantity": 2
+      }
+    ]
+  }'
+```
+
+Returns itemized pricing, subtotal, 8% tax, and total in cents.
+
+### Complete Checkout
+
+```bash
+curl -X POST http://localhost:3000/checkout/complete \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "items": [
+      {
+        "product_id": "REPLACE_WITH_PRODUCT_ID",
+        "quantity": 2
+      }
+    ]
+  }'
+```
+
+Returns HTTP `201 Created` with an order ID and total.
+
+## Running Tests
+
+Rails integration tests cover product retrieval, filtering, missing-product handling, checkout quotes, invalid carts, and order creation with inventory updates.
+
+```bash
+docker compose exec -e RAILS_ENV=test web bin/rails test
+```
+
+The test environment uses a separate MongoDB database to avoid modifying development data.
+
+## TypeScript API Verification
+
+Install Node.js dependencies:
+
+```bash
+npm install
+```
+
+Run API verification while Rails is running:
+
+```bash
+npm run verify
+```
+
+Check TypeScript types:
+
+```bash
+npm run typecheck
+```
+
+The verification script exercises the running API, checks response status codes and selected response fields, and returns a nonzero exit status if verification fails.
+
+## Assumptions and Design Decisions
+
+- Only active products are returned by the product endpoints.
+- Monetary values are stored as integer cents to avoid floating-point currency issues.
+- Checkout tax is calculated at a fixed rate of 8%.
+- Cart quantities must be positive JSON integers.
+- Checkout rejects missing products and requests exceeding available inventory.
+- Repeated product IDs in a cart are validated against their combined requested quantity.
+- Orders are stored in MongoDB using Mongoid.
+- API errors are returned as JSON with appropriate HTTP status codes.
+
+## Known Limitations and Future Improvements
+
+The implementation prioritizes the requirements of the exercise over production-level complexity.
+
+- Inventory updates are not currently protected against concurrent checkout requests.
+- Order creation and inventory updates are not wrapped in a MongoDB transaction, so partial failures could leave inconsistent data.
+- Additional validation, logging, monitoring, and more comprehensive automated testing would be appropriate for production use.
+- The checkout flow does not integrate with a payment processor.
+
+These are areas for future improvement rather than claims of production readiness.
+
+---
+
+# Original Exercise Instructions
+-------------------------------------------------
 # Senior Technical Support / SRE Exercise
 
 ## Overview
