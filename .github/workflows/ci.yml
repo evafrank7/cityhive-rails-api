@@ -51,7 +51,8 @@ jobs:
         run: bin/rubocop -f github
 
   test:
-    runs-on: ubuntu-latest
+    test:
+      runs-on: ubuntu-22.04
 
     services:
       mongo:
