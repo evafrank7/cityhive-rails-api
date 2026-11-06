@@ -1,7 +1,7 @@
 
 products = [
   {
-    name: "Classic T-Shirt",
+    name: "Hanes Cropped T-Shirt",
     category: "Clothing",
     description: "Comfortable cotton t-shirt",
     price_cents: 2500,
@@ -9,23 +9,23 @@ products = [
     active: true
   },
   {
-    name: "Running Sneakers",
+    name: "Black Heels",
     category: "Footwear",
-    description: "Lightweight everyday sneakers",
+    description: "Casual black heels to go with jeans or even can be dressed up.",
     price_cents: 7500,
     inventory_count: 15,
     active: true
   },
   {
-    name: "Canvas Tote Bag",
+    name: "Leather Purse",
     category: "Accessories",
-    description: "Reusable canvas tote bag",
+    description: "Dark brown leather purse",
     price_cents: 1800,
     inventory_count: 30,
     active: true
   },
   {
-    name: "Discontinued Hoodie",
+    name: "Vintage Denim Jacket",
     category: "Clothing",
     description: "No longer available",
     price_cents: 4500,
