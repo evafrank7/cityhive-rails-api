@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.4"
 
 # MongoDB object-document mapper
-gem "mongoid", "~> 9.1.0"
+gem "mongoid", "~> 9.1.2"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
